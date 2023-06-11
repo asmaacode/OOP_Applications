@@ -5,73 +5,77 @@ using namespace std;
 class clsInputValidate
 {
 public:
+	static bool isNumberBetween(short number, short from, short to)
+	{
+		return (number >= from && number <= to);
+	};
+	static bool isNumberBetween(int number, int from, int to)
+	{
+		return  (number >= from && number <= to);
+	};
+	static bool isNumberBetween(float number, float from, float to)
+	{
+		return (number >= from && number <= to);
+	};
+	static bool isNumberBetween(double number, double from, double to)
+	{
+		return (number >= from && number <= to);
+	};
 	static bool doYouQuestion(string msg="") {
 		char answer = 'N';
 		cout << msg << "[Y / N]";
 		cin >> answer;
 		return ((answer == 'Y' || answer == 'y') ? true : false);
 	};
-	static int readNumber() {
+	static int readNumber(string msg="") {
 		int userNumber = 0;
 		cin >> userNumber;
 		while (cin.fail())
 		{
 			// Explain error
-			cout << "ERROR: A Number must be entered:\n";
+			cout << msg;
 			cin.clear();
 			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			cin >> userNumber;
 		}
 		return  userNumber;
 	}
-	static float readFloatNumber() {
-		float userNumber = 0;
-		while (!(cin >> userNumber))
+	static int readNumberBetween(int from, int to, string msg = "ERROR: A Number must be entered:\n") {
+		int number = 0;
+		do {
+			cout << msg;
+			number = readNumber();
+		} while (isNumberBetween(number,from,to));
+		return number;
+	};
+	static double readDblNumber(string msg = "") {
+		double userNumber = 0;
+		cin >> userNumber;
+		while (cin.fail())
 		{
 			// Explain error
-			cout << "ERROR: A Number must be entered:\n";
+			cout << msg;
 			cin.clear();
-			cin.ignore(132, '\n');
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin >> userNumber;
 		}
 		return  userNumber;
 	}
-	static int readPositiveNumber() {
-		int positiveNumber = 0;
-		do {
-			cout << "Please enter a number greater than zero :\n";
-			positiveNumber = readNumber();
-		} while (positiveNumber <= 0);
-
-		return positiveNumber;
-	}
-	static int readPositiveNumberMsg(string msg="") {
-		int positiveNumber = 0;
+	static double readDblNumberBetween(double from, double to, string msg = "ERROR: A Number must be entered:\n") {
+		double number = 0;
 		do {
 			cout << msg;
-			positiveNumber = readNumber();
-		} while (positiveNumber < 0);
-
-		return positiveNumber;
-	}
-	static int readNumberMsg(string msg) {
-		int number = 0;
-		cout << msg << " ";
-		number = readNumber();
+			number = readNumber();
+		} while (isNumberBetween(number, from, to));
 		return number;
-	}
-	static float readFloatNumberMsg(string msg="") {
-		float number = 0.0;
-		cout << msg;
-		number = readFloatNumber();
-		return number;
-	}
+	};
 	static string readText(string message) {
 		string txt = "";
 		cout << message;
 		getline(cin, txt);
 		return  txt;
 	}
-	static string readTextWithoutWs(string message="") {
+	static string readTextNoWhiteSpace(string message="") {
 		string txt = "";
 		cout << message;
 		cin >> txt;
@@ -83,17 +87,29 @@ public:
 		cin >> txt;
 		return  txt;
 	}
-	static int readNumberInRangeMsg(string msg, int from, int to) {
-		int number = 0;
-		do {
-			cout << msg;
-			number = readNumber();
-		} while (number > to || number < from);
-
-		return number;
-	};
 	static bool isDateBetween(clsDate date, clsDate date1, clsDate date2) {
-		return clsPeriod::isDateInPeriod(clsPeriod(date1, date2), date) || clsPeriod::isDateInPeriod(clsPeriod(date2, date1), date);
+		return (clsDate::compareDates(date, date1) != clsDate::enCompareDate::Before &&
+			clsDate::compareDates(date, date2) != clsDate::enCompareDate::After)
+			||
+			(clsDate::compareDates(date, date2) != clsDate::enCompareDate::Before &&
+				clsDate::compareDates(date, date1) != clsDate::enCompareDate::After);
+	};
+	static bool isValideDate(clsDate Date)
+	{
+		return	clsDate::isValidDate(Date);
+	};
+	static clsDate readDate() {
+		clsDate date;
+		bool first = true;
+		do {
+			if (!first) cout << "\nWrong entering please reenter the date :\n";else first = false;
+			date.setDay(readNumber("Please enter a day :"));
+			date.setMonth(readNumber("Please enter a month :"));
+			date.setYear(readNumber("Please enter a year :"));
+			cout << "\n";
+		} while (!clsDate::isValidDate(date));
+
+		return date;
 	};
 };
 

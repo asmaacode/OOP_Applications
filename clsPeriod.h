@@ -22,8 +22,11 @@ public:
 		return isPeriodsOverlap(*this, period2);
 	};
 	static bool isDateInPeriod(clsPeriod period, clsDate date) {
-		return (clsDate::compareDates(period.fromDate, date) != clsDate::enCompareDate::Before ||
-			clsDate::compareDates(date, period.toDate) != clsDate::enCompareDate::After);
+		return (clsDate::compareDates(date, period.fromDate) != clsDate::enCompareDate::Before &&
+			clsDate::compareDates(date, period.toDate) != clsDate::enCompareDate::After)
+			||
+			(clsDate::compareDates(date, period.toDate) != clsDate::enCompareDate::Before &&
+				clsDate::compareDates(date, period.fromDate) != clsDate::enCompareDate::After);
 	};
 	bool isDateInPeriod(clsDate date) {
 		return isDateInPeriod(*this, date);

@@ -3,8 +3,8 @@
 #include<ctime> 
 #include<iomanip>
 #include "clsString.h"
-#include "clsInputValidate.h"
-#include "clsUtils.h"
+#include "clsDrawer.h"
+
 
 class clsDate
 {
@@ -609,9 +609,9 @@ public:
 	};
 
 	static void printHeader(short& month) {
-		cout << "\n" << clsUtils::generateTabs(2);
-		cout << clsUtils::generateLine(15) << getMonthName(month) << clsUtils::generateLine(15) << "\n\n";
-		cout << clsUtils::generateTabs(2);
+		cout << "\n" << clsDrawer::generateTabs(2);
+		cout << clsDrawer::generateLine(15) << getMonthName(month) << clsDrawer::generateLine(15) << "\n\n";
+		cout << clsDrawer::generateTabs(2);
 		cout << setw(3) << getWeekDayName(0) << "  ";
 		cout << setw(3) << getWeekDayName(1) << "  ";
 		cout << setw(3) << getWeekDayName(2) << "  ";
@@ -622,15 +622,15 @@ public:
 		cout << endl;
 	};
 	static void printFooter() {
-		cout << "\n" << clsUtils::generateTabs(2);
-		cout << clsUtils::generateLine(18) << clsUtils::generateLine(15) << "\n\n";
+		cout << "\n" << clsDrawer::generateTabs(2);
+		cout << clsDrawer::generateLine(18) << clsDrawer::generateLine(15) << "\n\n";
 	}
 	static void printBody(short& year, short& month) {
 		short firstDay = getOrderWeekDayOfDate(1, month, year);
 		short countMonthDays = countDaysInMonth(year, month);
 		short currentDay = 1;
 
-		cout << clsUtils::generateTabs(2);
+		cout << clsDrawer::generateTabs(2);
 		for (short i = 0;currentDay <= countMonthDays;i++) {
 			if (i >= firstDay) {
 				cout << setw(3) << currentDay << "  ";
@@ -642,7 +642,7 @@ public:
 
 			if ((i + 1) % 7 == 0) {
 				cout << endl;
-				cout << clsUtils::generateTabs(2);
+				cout << clsDrawer::generateTabs(2);
 			}
 		}
 	}
@@ -657,32 +657,20 @@ public:
 		printFooter();
 	};
 	static void printYearCalendar(short year) {
-		cout << clsUtils::generateTabs(2) << clsUtils::generateLine(33, '=') << "\n";
-		cout << clsUtils::generateTabs(12) << "Calendar - " << year << "\n";
-		cout << clsUtils::generateTabs(2) << clsUtils::generateLine(33, '=') << "\n";
+		cout << clsDrawer::generateTabs(2) << clsDrawer::generateLine(33, '=') << "\n";
+		cout << clsDrawer::generateTabs(12) << "Calendar - " << year << "\n";
+		cout << clsDrawer::generateTabs(2) << clsDrawer::generateLine(33, '=') << "\n";
 		for (short i = 1;i <= 12;i++) {
 			printMonthCalendar(year, i);
 		};
 	};
 	void printYearCalendar() {
-		cout << clsUtils::generateTabs(2) << clsUtils::generateLine(33, '=') << "\n";
-		cout << clsUtils::generateTabs(12) << "Calendar - " << _year << "\n";
-		cout << clsUtils::generateTabs(2) << clsUtils::generateLine(33, '=') << "\n";
+		cout << clsDrawer::generateTabs(2) << clsDrawer::generateLine(33, '=') << "\n";
+		cout << clsDrawer::generateTabs(12) << "Calendar - " << _year << "\n";
+		cout << clsDrawer::generateTabs(2) << clsDrawer::generateLine(33, '=') << "\n";
 		for (short i = 1;i <= 12;i++) {
 			printMonthCalendar(_year, i);
 		};
 	};
-	static clsDate readDate() {
-		clsDate date;
-		bool first = true;
-		do {
-			if (!first) cout << "\nWrong entering please reenter the date :\n";else first = false;
-			date._day = clsInputValidate::readNumberMsg("Please enter a day :");
-			date._month = clsInputValidate::readNumberMsg("Please enter a month :");
-			date._year = clsInputValidate::readPositiveNumberMsg("Please enter a year :");
-			cout << "\n";
-		} while (!isValidDate(date));
 
-		return date;
-	}
 };

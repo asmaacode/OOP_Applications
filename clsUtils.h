@@ -1,23 +1,17 @@
 #pragma once
 #include <string>
+#include <iostream>
+#include "clsDate.h"
+#include "clsDrawer.h"
 using namespace std;
+
 class clsUtils {
 public:
 	static string generateLine(short length = 0, char symbol = '_') {
-		string line = "";
-		while (length != 0) {
-			line += symbol;
-			length--;
-		}
-		return line;
+		clsDrawer::generateLine(length,symbol);
 	};
 	static string generateTabs(short length = 0) {
-		string tabs = "";
-		while (length != 0) {
-			tabs += " ";
-			length--;
-		}
-		return tabs;
+		clsDrawer::generateTabs(length);
 	};
 
 	static void swap(int& A, int& B) {
@@ -56,8 +50,7 @@ public:
 	static  void swap(clsDate& A, clsDate& B)
 	{
 		clsDate::swapDates(A, B);
-
-	}
+	};
 
 	enum enCharType { smallLetter, capitalLetter, specialCharacter, digit };
 	static void  sRand()
