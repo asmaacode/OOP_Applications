@@ -14,26 +14,11 @@ private:
 
 	enum enMode { EmptyMode = 0, UpdateMode = 1 };
 	enMode _Mode;
-	static clsBankClient _ConvertLinetoClientObject(string ClientData, string Delimiter = "#//# ") {
-		vector<string>vClientData = clsString::split(ClientData, Delimiter);
-		return clsBankClient(vClientData[0], vClientData[1], vClientData[2], vClientData[3], vClientData[4], vClientData[5], stod(vClientData[6]), enMode::UpdateMode);
-	};
-	static  vector <clsBankClient> _LoadClientsDataFromFile(string FileName)
+	static clsBankClient _ConvertLinetoClientObject(string Line, string Delimiter = "#//#")
 	{
-		vector <clsBankClient> vClients;
-		fstream MyFile;
-		MyFile.open(FileName, ios::in);//read Mode
-		if (MyFile.is_open())
-		{
-			string Line;
-			while (getline(MyFile, Line))
-			{
-				clsBankClient Client = _ConvertLinetoClientObject(Line);
-				vClients.push_back(Client);
-			}
-			MyFile.close();
-		}
-		return vClients;
+		vector<string> vClientData = clsString::split(Line, Delimiter);
+		return clsBankClient( vClientData[0], vClientData[1], vClientData[2],
+			vClientData[3], vClientData[4], vClientData[5], stod(vClientData[6]), enMode::UpdateMode);
 	}
 	static clsBankClient _GetEmptyClientObject()
 	{
@@ -70,11 +55,11 @@ public:
 	string GetPinCode() {
 		return _PinCode;
 	};
-	_declspec(property(put = SetPinCode, get = GetPinCode))float PinCode;
+	_declspec(property(put = SetPinCode, get = GetPinCode))string PinCode;
 	bool IsEmpty() {
 		return(_Mode == enMode::EmptyMode);
 	};
-	clsBankClient Find(string AccountNumber) {
+	static clsBankClient Find(string AccountNumber) {
 		vector <clsBankClient> vClients;
 		fstream MyFile;
 		MyFile.open("Clients.txt", ios::in);//read Mode
@@ -94,9 +79,12 @@ public:
 		}
 		return _GetEmptyClientObject();
 	};
-	clsBankClient Find(string AccountNumber, string PinCode) {
+	static clsBankClient Find(string AccountNumber, string PinCode) {
 		clsBankClient Client = Find(AccountNumber);
 		return  Client.PinCode == PinCode ? Client : _GetEmptyClientObject();
+	};
+	static bool IsClientExist(string AccountNumber) {
+		return (!Find(AccountNumber).IsEmpty());
 	};
 
 };
