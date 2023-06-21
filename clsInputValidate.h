@@ -28,17 +28,13 @@ public:
 		return ((answer == 'Y' || answer == 'y') ? true : false);
 	};
 	static int readNumber(string msg="") {
-		int userNumber = 0;
-		cin >> userNumber;
-		while (cin.fail())
-		{
-			// Explain error
-			cout << msg;
+		int Number;
+		cout << msg;
+		while (!(cin >> Number)) {
 			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			cin >> userNumber;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
-		return  userNumber;
+		return Number;
 	}
 	static int readNumberBetween(int from, int to, string msg = "ERROR: A Number must be entered:\n") {
 		int number = 0;
@@ -49,20 +45,33 @@ public:
 		return number;
 	};
 	static double readDblNumber(string msg = "") {
-		double userNumber = 0;
-		cin >> userNumber;
-		while (cin.fail())
-		{
-			// Explain error
-			cout << msg;
+		double Number;
+		cout << msg;
+		while (!(cin >> Number)) {
 			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			cin >> userNumber;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
-		return  userNumber;
+		return Number;
 	}
 	static double readDblNumberBetween(double from, double to, string msg = "ERROR: A Number must be entered:\n") {
 		double number = 0;
+		do {
+			cout << msg;
+			number = readNumber();
+		} while (isNumberBetween(number, from, to));
+		return number;
+	};
+	static float readFltNumber(string msg = "") {
+		float Number;
+		cout << msg;
+		while (!(cin >> Number)) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+		return Number;
+	}
+	static float readFltNumberBetween(float from, float to, string msg = "ERROR: A Number must be entered:\n") {
+		float number = 0;
 		do {
 			cout << msg;
 			number = readNumber();
