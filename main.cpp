@@ -1,10 +1,9 @@
-﻿//initiate an inner-class using constructor
 #include<iostream> 
 #include "clsBankClient.h"
 #include "clsInputValidate.h"
 using namespace std;
 
-void EnterUpdatedClientData(clsBankClient& Client) {
+void EnterClientData(clsBankClient& Client) {
 	Client.FirstName = clsInputValidate::readText("Please enter the First Name :");
 	Client.LastName = clsInputValidate::readText("Please enter the Last Name:");
 	Client.Email = clsInputValidate::readText("Please enter the Email :");
@@ -13,7 +12,7 @@ void EnterUpdatedClientData(clsBankClient& Client) {
 	Client.AccountBalance = clsInputValidate::readFltNumber("Please enter the Balance Number :");
 }
 void UpdateClient() {
-	string AccountNumber = clsInputValidate::readText("Please enter the account number:");
+	string AccountNumber = clsInputValidate::readText("Please enter the account number you want to update:");
 
 	while (!clsBankClient::IsClientExist(AccountNumber)) {
 		cout << "Sorry! The Account number does not exist ! \n";
@@ -24,21 +23,44 @@ void UpdateClient() {
 	cout << "The founded client  :\n";
 	CurrentClient.Print();
 
-	EnterUpdatedClientData(CurrentClient);
-	
+	EnterClientData(CurrentClient);
+
 	switch (CurrentClient.Save())
 	{
-	case clsBankClient::enSuccess:
+	case clsBankClient::svSuccess:
 		cout << "Account Updated Successfully !";
 		break;
-	case clsBankClient::enEmptyFailed:
-		cout << "\nError account was not saved because it's Empty"; 
+	case clsBankClient::svFailedEmptyClient:
+		cout << "\nError account was not saved because it's Empty";
+		break;
+	}
+}
+void AddNewClient() {
+	string AccountNumber = clsInputValidate::readText("Please enter the new account number :");
+
+	while (clsBankClient::IsClientExist(AccountNumber)) {
+		cout << "Sorry! The Account number already exists ! \n";
+		AccountNumber = clsInputValidate::readText("Please enter the new account number :");
+	}
+	clsBankClient CurrentClient = clsBankClient::GetNewClientObject(AccountNumber);
+	EnterClientData(CurrentClient);
+
+	switch (CurrentClient.Save())
+	{
+	case clsBankClient::svSuccess:
+		cout << "The new account added successfully !";
+		break;
+	case clsBankClient::svFailedEmptyClient:
+		cout << "\nError account was not saved because it's Empty";
+		break;
+	case clsBankClient::svFailedAddExistsClient:
+		cout << "\nError account already Exists";
 		break;
 	}
 }
 
 int    main() {
-	UpdateClient();
+	AddNewClient();
 	system("pause>0");
 	return 0;
 };

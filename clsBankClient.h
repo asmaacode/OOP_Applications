@@ -12,7 +12,7 @@ private:
 	string _PinCode;
 	float _AccountBalance;
 
-	enum enMode { EmptyMode = 0, UpdateMode = 1 };
+	enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2 };
 	enMode _Mode;
 	static clsBankClient _ConvertLinetoClientObject(string Line, string Delimiter = "#//#")
 	{
@@ -72,8 +72,19 @@ private:
 		}
 		_SaveClientsDataToFile(vClients);
 	}
+	void _AddNewLineToFile(string NewLine) {
+		fstream File;
+		File.open("Clients.txt", ios::out | ios::app);
+		if (File.is_open()) {
+			File << NewLine << endl;
+		}
+		File.close();
+	}
+	void _AddNew() {
+		_AddNewLineToFile(_ConvertClientObjecttoLine(*this));
+	}
 public:
-	clsBankClient(string FirstName, string LastName, string Email, string Phone, string AccountNumber,string PinCode, float AccountBalance, enMode Mode)
+	clsBankClient(string FirstName, string LastName, string Email, string Phone, string AccountNumber, string PinCode, float AccountBalance, enMode Mode)
 		:clsPerson(FirstName, LastName, Email, Phone)
 	{
 		_Mode = Mode;
@@ -81,7 +92,7 @@ public:
 		_PinCode = PinCode;
 		_AccountBalance = AccountBalance;
 	};
-	
+
 	void SetAccountNumber(string AccountNumber) {
 		_AccountNumber = AccountNumber;
 	};
@@ -97,7 +108,7 @@ public:
 		return _AccountBalance;
 	};
 	_declspec(property(put = SetAccountBalance, get = GetAccountBalance))float AccountBalance;
-	
+
 	void SetPinCode(string PinCode) {
 		_PinCode = PinCode;
 	};
@@ -105,7 +116,7 @@ public:
 		return _PinCode;
 	};
 	_declspec(property(put = SetPinCode, get = GetPinCode))string PinCode;
-	
+
 	bool IsEmpty() {
 		return(_Mode == enMode::EmptyMode);
 	};
@@ -136,14 +147,22 @@ public:
 	static bool IsClientExist(string AccountNumber) {
 		return (!Find(AccountNumber).IsEmpty());
 	};
-	
-	static enum enSaveResult { enEmptyFailed, enSuccess };
+
+	static enum enSaveResult { svFailedEmptyClient, svSuccess, svFailedAddExistsClient };
 	enSaveResult Save() {
 		if (_Mode == enMode::EmptyMode)
-			return enEmptyFailed;
+			return svFailedEmptyClient;
 		if (_Mode == enMode::UpdateMode) {
 			_Update();
-			return enSuccess;
+			return svSuccess;
 		}
+		if (_Mode == enMode::AddNewMode) {
+			_AddNew();
+			return svSuccess;
+		}
+	}
+
+	static clsBankClient GetNewClientObject(string AccountNumber) {
+		return clsBankClient("", "", "", "", AccountNumber, "", 0, enMode::AddNewMode);
 	}
 };
