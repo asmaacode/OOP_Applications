@@ -11,6 +11,7 @@ private:
 	string _AccountNumber;
 	string _PinCode;
 	float _AccountBalance;
+	bool _MarkAsDeleted;
 
 	enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2 };
 	enMode _Mode;
@@ -57,7 +58,8 @@ private:
 
 		if (File.is_open()) {
 			for (clsBankClient Client : vClients) {
-				File << _ConvertClientObjecttoLine(Client) << endl;
+				if (!Client.MarkAsDeleted)
+					File << _ConvertClientObjecttoLine(Client) << endl;
 			}
 			File.close();
 		}
@@ -91,11 +93,9 @@ public:
 		_AccountNumber = AccountNumber;
 		_PinCode = PinCode;
 		_AccountBalance = AccountBalance;
+		_MarkAsDeleted = false;
 	};
 
-	void SetAccountNumber(string AccountNumber) {
-		_AccountNumber = AccountNumber;
-	};
 	string GetAccountNumber() {
 		return _AccountNumber;
 	};
@@ -116,6 +116,14 @@ public:
 		return _PinCode;
 	};
 	_declspec(property(put = SetPinCode, get = GetPinCode))string PinCode;
+
+	void SetMarkAsDeleted(bool MarkAsDeleted) {
+		_MarkAsDeleted = MarkAsDeleted;
+	};
+	bool GetMarkAsDeleted() {
+		return _MarkAsDeleted;
+	};
+	_declspec(property(put = SetMarkAsDeleted, get = GetMarkAsDeleted))bool MarkAsDeleted;
 
 	bool IsEmpty() {
 		return(_Mode == enMode::EmptyMode);
@@ -164,5 +172,17 @@ public:
 
 	static clsBankClient GetNewClientObject(string AccountNumber) {
 		return clsBankClient("", "", "", "", AccountNumber, "", 0, enMode::AddNewMode);
+	}
+	bool Delete() {
+		vector<clsBankClient>vClients = _LoadClientsDataFromFile();
+		for (clsBankClient& Client : vClients) {
+			if (Client.AccountNumber == GetAccountNumber()) {
+				Client.MarkAsDeleted = true;
+				break;
+			}
+		}
+		_SaveClientsDataToFile(vClients);
+		*this = _GetEmptyClientObject();
+		return true;
 	}
 };
