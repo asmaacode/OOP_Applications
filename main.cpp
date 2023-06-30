@@ -77,9 +77,41 @@ void DeleteClient() {
 		}
 
 }
+void PrintClientsListHeader() {
+	cout << clsDrawer::generateTabs(50) << "Clients List\n";
+	cout << clsDrawer::generateLine(120) << endl;
+	cout << "|" << left << setw(20) << "Account Number";
+	cout << "|" << left << setw(25) << "Client Name";
+	cout << "|" << left << setw(15) << "Phone";
+	cout << "|" << left << setw(30) << "Email";
+	cout << "|" << left << setw(10) << "Pin Code";
+	cout << "|" << left << setw(10) << "Balance" << endl;
+	cout << clsDrawer::generateLine(120) << endl;
+}
+void PrintClient(clsBankClient& Client) {
+	cout << "|" << left << setw(20) << Client.AccountNumber;
+	cout << "|" << left << setw(25) << Client.FullName();
+	cout << "|" << left << setw(15) << Client.Phone;
+	cout << "|" << left << setw(30) << Client.Email;
+	cout << "|" << left << setw(10) << Client.PinCode;
+	cout << "|" << left << setw(10) << to_string(Client.AccountBalance)<< endl;
+}
+void ShowClientsList() {
+	PrintClientsListHeader();
+	vector<clsBankClient>VClients = clsBankClient::GetClientsList();
+	if (VClients.size() > 0) {
+		for(clsBankClient Client:VClients)
+			PrintClient(Client);
+		cout << clsDrawer::generateLine(120) << endl;
+		cout << "(" << VClients.size()<<") Clients" << endl;
+	}
+	else {
+		cout << "There is no client in the system yet! \n";
+	}
+}
 
 int    main() {
-	DeleteClient();
+	ShowClientsList();
 	system("pause>0");
 	return 0;
 };
