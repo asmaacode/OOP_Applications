@@ -1,5 +1,6 @@
 #include<iostream> 
 #include "clsBankClient.h"
+#include "clsUtils.h"
 #include "clsInputValidate.h"
 using namespace std;
 
@@ -109,9 +110,39 @@ void ShowClientsList() {
 		cout << "There is no client in the system yet! \n";
 	}
 }
+void PrintTotalBalancesHeader() {
+	cout << clsDrawer::generateTabs(50) << "Total Balances\n";
+	cout << clsDrawer::generateLine(120) << endl;
+	cout << "|" << left << setw(25) << "Account Number";
+	cout << "|" << left << setw(35) << "Client Name";
+	cout << "|" << left << setw(10) << "Balance" << endl;
+	cout << clsDrawer::generateLine(120) << endl;
+}
+void PrintTotalBalance(clsBankClient& Client) {
+	cout << "|" << left << setw(25) << Client.AccountNumber;
+	cout << "|" << left << setw(35) << Client.FullName();
+	cout << "|" << left << setw(10) << to_string(Client.AccountBalance) << endl;
+}
+
+void ShowTotalBalances() {
+	PrintTotalBalancesHeader();
+	vector<clsBankClient>VClients = clsBankClient::GetClientsList();
+	if (VClients.size() > 0) {
+		for (clsBankClient Client : VClients)
+			PrintTotalBalance(Client);
+		cout << clsDrawer::generateLine(120) << endl;
+		double Total = clsBankClient::GetTotalBalances();
+		cout <<"Total Balances = " << Total<<endl;
+		cout <<"( " << clsUtils::NumberToText(int(Total)) << ")\n";
+	}
+	else {
+		cout << "There is no client in the system yet! \n";
+	}
+}
+
 
 int    main() {
-	ShowClientsList();
+	ShowTotalBalances();
 	system("pause>0");
 	return 0;
 };
