@@ -2,6 +2,7 @@
 #include "clsBankClient.h"
 #include "clsUtils.h"
 #include "clsInputValidate.h"
+#include"clsMainScreen.h"
 using namespace std;
 
 void EnterClientData(clsBankClient& Client) {
@@ -123,7 +124,6 @@ void PrintTotalBalance(clsBankClient& Client) {
 	cout << "|" << left << setw(35) << Client.FullName();
 	cout << "|" << left << setw(10) << to_string(Client.AccountBalance) << endl;
 }
-
 void ShowTotalBalances() {
 	PrintTotalBalancesHeader();
 	vector<clsBankClient>VClients = clsBankClient::GetClientsList();
@@ -133,16 +133,14 @@ void ShowTotalBalances() {
 		cout << clsDrawer::generateLine(120) << endl;
 		double Total = clsBankClient::GetTotalBalances();
 		cout <<"Total Balances = " << Total<<endl;
-		cout <<"( " << clsUtils::NumberToText(int(Total)) << ")\n";
+		cout <<"( " << clsUtils::NumberToText(int(Total) ) << ")\n";
 	}
 	else {
 		cout << "There is no client in the system yet! \n";
 	}
 }
-
-
-int    main() {
-	ShowTotalBalances();
+int   main() {
+	clsMainScreen::ShowMainMenu();
 	system("pause>0");
 	return 0;
 };

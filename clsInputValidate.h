@@ -21,13 +21,13 @@ public:
 	{
 		return (number >= from && number <= to);
 	};
-	static bool doYouQuestion(string msg="") {
+	static bool doYouQuestion(string msg = "") {
 		char answer = 'N';
 		cout << msg << "[Y / N]";
 		cin >> answer;
 		return ((answer == 'Y' || answer == 'y') ? true : false);
 	};
-	static int readNumber(string msg="") {
+	static int readNumber(string msg = "") {
 		int Number;
 		cout << msg;
 		while (!(cin >> Number)) {
@@ -41,7 +41,7 @@ public:
 		do {
 			cout << msg;
 			number = readNumber();
-		} while (isNumberBetween(number,from,to));
+		} while (!isNumberBetween(number, from, to));
 		return number;
 	};
 	static double readDblNumber(string msg = "") {
@@ -84,7 +84,7 @@ public:
 		getline(cin, txt);
 		return  txt;
 	}
-	static string readTextNoWhiteSpace(string message="") {
+	static string readTextNoWhiteSpace(string message = "") {
 		string txt = "";
 		cout << message;
 		cin >> txt;
