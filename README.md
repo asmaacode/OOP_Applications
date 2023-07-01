@@ -5,4 +5,4 @@ https://programmingadvices.com/p/11-oop-as-it-should-be-applications
 
 Mainly here will find:
 New libraries initiate as classes.
-Bank System using OOP.
+Bank System using OOP (Console Application).
