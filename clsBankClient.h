@@ -86,7 +86,8 @@ private:
 		_AddNewLineToFile(_ConvertClientObjecttoLine(*this));
 	}
 public:
-	clsBankClient(string FirstName, string LastName, string Email, string Phone, string AccountNumber, string PinCode, float AccountBalance, enMode Mode)
+	clsBankClient(string FirstName, string LastName, string Email, string Phone, string AccountNumber,
+		string PinCode, float AccountBalance, enMode Mode)
 		:clsPerson(FirstName, LastName, Email, Phone)
 	{
 		_Mode = Mode;
@@ -198,4 +199,5 @@ public:
 		}
 		return Total;
 	}
+
 };

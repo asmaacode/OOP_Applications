@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "clsBankClient.h"
 #include "clsDate.h"
 using namespace std;
 class clsInputValidate
@@ -120,5 +121,13 @@ public:
 
 		return date;
 	};
+	static void EnterClientData(clsBankClient& Client) {
+		Client.FirstName = clsInputValidate::readText("Please enter the First Name :");
+		Client.LastName = clsInputValidate::readText("Please enter the Last Name:");
+		Client.Email = clsInputValidate::readText("Please enter the Email :");
+		Client.Phone = clsInputValidate::readText("Please enter the Phone :");
+		Client.PinCode = clsInputValidate::readText("Please enter the Pin Code :");
+		Client.AccountBalance = clsInputValidate::readFltNumber("Please enter the Balance Number :");
+	}
 };
 
