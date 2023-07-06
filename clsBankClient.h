@@ -199,5 +199,15 @@ public:
 		}
 		return Total;
 	}
+	void Deposit(float Amount) {
+		AccountBalance = AccountBalance + (Amount * 1);
+	}	
+	bool Withdraw(float Amount) {
+		if (Amount > AccountBalance) {
+			return false;
+		}
+		AccountBalance = AccountBalance + (Amount * -1);
+		return true;
+	}
 
 };
