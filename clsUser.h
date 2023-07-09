@@ -10,9 +10,9 @@ class clsUser :public clsPerson
 private:
 	enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2 };
 	enMode _Mode;
-	string _UserName;
-	string _Password;
-	int _Rights;
+	string _UserName = "";
+	string _Password = "";
+	int _Rights = -1;
 	bool _MarkAsDeleted = false;
 
 	static clsUser _ConvertLinetoUserObject(string Line, string Delimiter = "#//#")
@@ -87,8 +87,8 @@ private:
 	}
 
 public:
-	clsUser(enMode Mode, string FirstName, string LastName, string Email, string Phone,string UserName,string Password,int Rights)
-		:clsPerson (FirstName,LastName,Email,Phone) {
+	clsUser(enMode Mode, string FirstName, string LastName, string Email, string Phone, string UserName, string Password, int Rights)
+		:clsPerson(FirstName, LastName, Email, Phone) {
 		_Mode = Mode;
 		_UserName = UserName;
 		_Password = Password;
@@ -171,12 +171,12 @@ public:
 	}
 
 	static clsUser GetNewUserObject(string UserName) {
-		return clsUser(enMode::AddNewMode,"", "", "", "", UserName, "", 0);
+		return clsUser(enMode::AddNewMode, "", "", "", "", UserName, "", 0);
 	}
 	bool Delete() {
 		vector<clsUser>vUsers = _LoadUsersDataFromFile();
 		for (clsUser& User : vUsers) {
-			if ( User.UserName== UserName) {
+			if (User.UserName == UserName) {
 				User.MarkAsDeleted = true;
 				break;
 			}
@@ -189,5 +189,6 @@ public:
 	static vector<clsUser> GetUsersList() {
 		return _LoadUsersDataFromFile();
 	}
+
 };
 
