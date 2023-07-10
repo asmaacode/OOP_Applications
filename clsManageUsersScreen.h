@@ -4,6 +4,9 @@
 #include "clsInputValidate.h"
 #include "clsUsersListScreen.h"
 #include "clsAddNewUserScreen.h"
+#include "clsUpdateUserScreen.h"
+#include "clsDeleteUserScreen.h"
+#include "clsFindUserScreen.h"
 using namespace std;
 
 class clsManageUsersScreen : protected clsScreen
@@ -17,13 +20,13 @@ private:
 		clsAddNewUserScreen::AddNewUser();
 	};
 	static void _ShowDeleteUserScreen() {
-		cout << "Here will be users list screen\n";
+		clsDeleteUserScreen::DeleteUser();
 	};
 	static void _ShowUpdateUserScreen() {
-		cout << "Here will be users list screen\n";
+		clsUpdateUserScreen::UpdateUser();
 	};
 	static void _ShowFindUserScreen() {
-		cout << "Here will be users list screen\n";
+		clsFindUserScreen::FindUser();
 	};
 	static enUsersMenuOptions _ReadUsersMenuOption() {
 		return (enUsersMenuOptions)clsInputValidate::readNumberBetween(1, 6, "Choose what do you want to do? [1,6]");

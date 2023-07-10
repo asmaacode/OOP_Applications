@@ -68,6 +68,4 @@ public:
 
 		_PerfromTransactionsMenuOption(_ReadTransactionOption());
 	}
-
 };
-

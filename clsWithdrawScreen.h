@@ -19,7 +19,7 @@ public:
 		clsBankClient CurrentClient = clsBankClient::Find(AccountNumber);
 		CurrentClient.Print();
 		float Amount = clsInputValidate::readFltNumber("\nPlease enter amount :");
-		while (CurrentClient.Withdraw(Amount))
+		while (!CurrentClient.Withdraw(Amount))
 		{
 			cout << "Amount exceeds the balance, you can withdraw up to : [" << CurrentClient.AccountBalance << "]\n";
 			Amount = clsInputValidate::readFltNumber("\nPlease enter amount :");
