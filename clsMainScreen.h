@@ -1,6 +1,7 @@
 #pragma once
-#include "clsScreen.h"
+#include"Global.h"
 #include "clsInputValidate.h"
+#include "clsScreen.h"
 #include "clsClientsListScreen.h"
 #include "clsAddNewClientScreen.h"
 #include "clsUpdateClientScreen.h"
@@ -58,8 +59,7 @@ private:
 	}
 	static void _ShowEndScreen()
 	{
-		cout << "\nEnd Screen Will be here...\n";
-
+		CurrentUser = CurrentUser.Find("","");
 	}
 	static void _PerfromMainMenuOption(enMainMenuOptions MainMenuOption)
 	{
@@ -111,7 +111,6 @@ private:
 		case enMainMenuOptions::enExit:
 			system("cls");
 			_ShowEndScreen();
-			//Login();
 			break;
 		}
 	}
