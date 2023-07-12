@@ -95,6 +95,23 @@ public:
 		_Rights = Rights;
 		_MarkAsDeleted = false;
 	}
+	static enum enRights {
+		enShowClients = 1,
+		enAddNewClient = 2,
+		enDeleteClient = 4,
+		enUpdateClient = 8,
+		enFindClient = 16,
+		enTransactions = 32,
+		enManageUsers = 64,
+		enShowUsers = 128,
+		enAddNewUser = 256,
+		enDeleteUser = 512,
+		enUpdateUser = 1024,
+		enFindUser = 2048,
+		enDeposite = 4096,
+		enWithdraw = 8192,
+		enTotalsBalances = 16384
+	};
 	bool IsEmpty() {
 		return (_Mode == enMode::EmptyMode);
 	}
@@ -189,6 +206,8 @@ public:
 	static vector<clsUser> GetUsersList() {
 		return _LoadUsersDataFromFile();
 	}
-
+	bool HasRights(enRights Rights) {
+		return (this->Rights == -1 || (this->Rights & Rights));
+	}
 };
 

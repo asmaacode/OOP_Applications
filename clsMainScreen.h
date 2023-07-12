@@ -31,30 +31,58 @@ private:
 	}
 	static void _ShowAllClientsScreen()
 	{
+		if (!CheckAccessRights(clsUser::enRights::enShowClients))
+		{
+			return;// this will exit the function and it will not continue
+		}
 		clsClientsListScreen::ShowClientsList();
 	}
 	static void _ShowAddNewClientsScreen()
 	{
+		if (!CheckAccessRights(clsUser::enRights::enAddNewClient))
+		{
+			return;// this will exit the function and it will not continue
+		}
 		clsAddNewClientScreen::AddNewClient();
 	}
 	static void _ShowDeleteClientScreen()
 	{
+		if (!CheckAccessRights(clsUser::enRights::enDeleteClient))
+		{
+			return;// this will exit the function and it will not continue
+		}
 		clsDeleteClientScreen::DeleteClient();
 	}
 	static void _ShowUpdateClientScreen()
 	{
+		if (!CheckAccessRights(clsUser::enRights::enUpdateClient))
+		{
+			return;// this will exit the function and it will not continue
+		}
 		clsUpdateClientScreen::UpdateClient();
 	}
 	static void _ShowFindClientScreen()
 	{
+		if (!CheckAccessRights(clsUser::enRights::enFindClient))
+		{
+			return;// this will exit the function and it will not continue
+		}
 		clsFindClientScreen::FindClient();
 	}
 	static void _ShowTransactionsMenu()
 	{
+		if (!CheckAccessRights(clsUser::enRights::enTransactions))
+		{
+			return;// this will exit the function and it will not continue
+		}
 		clsTransactionsScreen::ShowTransactionsMenu();
 	}
 	static void _ShowManageUsersMenu()
 	{
+		if (!CheckAccessRights(clsUser::enRights::enManageUsers))
+		{
+			return;// this will exit the function and it will not continue
+		}
 		clsManageUsersScreen::ShowManageUsersMenu();
 	}
 	static void _ShowEndScreen()

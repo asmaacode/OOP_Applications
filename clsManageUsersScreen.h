@@ -14,15 +14,31 @@ class clsManageUsersScreen : protected clsScreen
 private:
 	enum enUsersMenuOptions { enUsersList = 1, enAddNewUser = 2, enDeleteUser = 3, enUpdateUser = 4, enFindUser = 5, enMainMenu = 6 };
 	static void _ShowUsersListScreen() {
+		//if (!CheckAccessRights(clsUser::enRights::enShowUsers))
+		//{
+		//	return;// this will exit the function and it will not continue
+		//}
 		clsUsersListScreen::ShowUsersList();
 	};
 	static void _ShowAddNewUserScreen() {
+		//if (!CheckAccessRights(clsUser::enRights::enAddNewUser))
+		//{
+		//	return;// this will exit the function and it will not continue
+		//}
 		clsAddNewUserScreen::AddNewUser();
 	};
 	static void _ShowDeleteUserScreen() {
+		//if (!CheckAccessRights(clsUser::enRights::enDeleteUser))
+		//{
+		//	return;// this will exit the function and it will not continue
+		//}
 		clsDeleteUserScreen::DeleteUser();
 	};
 	static void _ShowUpdateUserScreen() {
+		//if (!CheckAccessRights(clsUser::enRights::enUpdateUser))
+		//{
+		//	return;// this will exit the function and it will not continue
+		//}
 		clsUpdateUserScreen::UpdateUser();
 	};
 	static void _ShowFindUserScreen() {

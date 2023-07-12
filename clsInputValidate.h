@@ -138,45 +138,29 @@ public:
 		User.Password = readText("Please enter the Password :");
 		User.Rights = ReadUserRights();
 	}
-	enum enScreenRights {
-		scShowClients = 1,
-		scAddNewClient = 2,
-		scDeleteClient = 4,
-		scUpdateClient = 8,
-		scFindClient = 16,
-		scTransactions = 32,
-		scManageUsers = 64,
-		scShowUsers = 128,
-		scAddNewUser = 256,
-		scDeleteUser = 512,
-		scUpdateUser = 1024,
-		scFindUser = 2048,
-		scDeposite = 4096,
-		scWithdraw = 8192,
-		scTotalsBalances = 16384
-	};
+
 	static int ReadUserRights() {
 		if (doYouQuestion("Do you want to give this user full access ?"))
 			return -1;
 		cout << "Do you want to give access to :\n";
 		int rights = 0;
-		if (doYouQuestion("Show Clients List ?"))rights += enScreenRights::scShowClients;
-		if (doYouQuestion("Add New Client ?"))rights += enScreenRights::scAddNewClient;
-		if (doYouQuestion("Delete Client ?"))rights += enScreenRights::scDeleteClient;
-		if (doYouQuestion("Update Client ?"))rights += enScreenRights::scUpdateClient;
-		if (doYouQuestion("Find Client ?"))rights += enScreenRights::scFindClient;
+		if (doYouQuestion("Show Clients List ?"))rights += clsUser::enShowClients;
+		if (doYouQuestion("Add New Client ?"))rights += clsUser::enAddNewClient;
+		if (doYouQuestion("Delete Client ?"))rights += clsUser::enDeleteClient;
+		if (doYouQuestion("Update Client ?"))rights += clsUser::enUpdateClient;
+		if (doYouQuestion("Find Client ?"))rights += clsUser::enFindClient;
 
 		if (doYouQuestion("Transactions ?"))
 		{
-			rights += enScreenRights::scTransactions;
-			//if (doYouQuestion("Deposite ?"))rights += enScreenRights::scDeposite;
-			//if (doYouQuestion("Withdraw ?"))rights += enScreenRights::scWithdraw;
-			//if (doYouQuestion("Show Total Balances ?"))rights += enScreenRights::scTotalsBalances;
+			rights += clsUser::enTransactions;
+			//if (doYouQuestion("Deposite ?"))rights += clsUser::scDeposite;
+			//if (doYouQuestion("Withdraw ?"))rights += clsUser::scWithdraw;
+			//if (doYouQuestion("Show Total Balances ?"))rights += clsUser::scTotalsBalances;
 		}
 
 		if (doYouQuestion("Manage Users ?"))
 		{
-			rights += enScreenRights::scManageUsers;
+			rights += clsUser::enManageUsers;
 			/*if (doYouQuestion("Show Users List ?"))rights += enScreenRights::scShowUsers;
 			if (doYouQuestion("Add New User ?"))rights += enScreenRights::scAddNewUser;
 			if (doYouQuestion("Delete User ?"))rights += enScreenRights::scDeleteUser;
