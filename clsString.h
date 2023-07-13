@@ -61,12 +61,9 @@ public:
 	void smallization() {
 		_Value = smallization(_Value);
 	};
-	static string replace(string fullStatement, string oldPart, string newPart) {
+	static void replace(string& fullStatement, string oldPart, string newPart) {
 		short fromIndex = fullStatement.find(oldPart);
-		return fullStatement.replace(fromIndex, oldPart.length(), newPart);
-	};
-	void replace(string oldPart, string newPart) {
-		_Value = replace(_Value, oldPart, newPart);
+		fullStatement.replace(fromIndex, oldPart.length(), newPart);
 	};
 	static vector<string> split(string s, string delimiter = " ") {
 		vector<string> words;

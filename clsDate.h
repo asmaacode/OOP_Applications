@@ -4,8 +4,6 @@
 #include<iomanip>
 #include "clsString.h"
 #include "clsDrawer.h"
-
-
 class clsDate
 {
 private:
