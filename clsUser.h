@@ -1,6 +1,7 @@
 #pragma once
 #include"clsPerson.h"
 #include"clsString.h"
+#include"clsUtils.h"
 #include <fstream>
 #include <vector>
 using namespace std;
@@ -74,16 +75,17 @@ private:
 		}
 		_SaveUsersDataToFile(vUsers);
 	}
-	void _AddNewLineToFile(string NewLine) {
-		fstream File;
-		File.open("Users.txt", ios::out | ios::app);
-		if (File.is_open()) {
-			File << NewLine << endl;
-		}
-		File.close();
-	}
 	void _AddNew() {
-		_AddNewLineToFile(_ConvertUserObjecttoLine(*this));
+		clsUtils::AddNewLineToFile("Users.txt", _ConvertUserObjecttoLine(*this));
+	}
+	string _PrepareLogInRecord(string Seperator = "#//#")
+	{
+		string LoginRecord = "";
+		LoginRecord += clsDate::getSystemDateTimeString() + Seperator;
+		LoginRecord += UserName + Seperator;
+		LoginRecord += Password + Seperator;
+		LoginRecord += to_string(Rights);
+		return LoginRecord;
 	}
 
 public:
@@ -208,6 +210,9 @@ public:
 	}
 	bool HasRights(enRights Rights) {
 		return (this->Rights == -1 || (this->Rights & Rights));
+	}
+	void RegisterLogIn() {
+		clsUtils::AddNewLineToFile("LoginLogFile.txt", _PrepareLogInRecord());
 	}
 };
 

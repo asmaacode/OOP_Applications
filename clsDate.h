@@ -8,11 +8,13 @@ class clsDate
 {
 private:
 	short _day = 0, _month = 0, _year = 0;
+	short _hour = 0, _min = 0, _second = 0;
 public:
 	clsDate() {
 		_day = getThisDay();
 		_month = getThisMonth();
 		_year = getThisYear();
+
 	};
 	clsDate(short day, short month, short year) {
 		_day = day;
@@ -65,12 +67,6 @@ public:
 		tm* now = localtime(&t);
 		return  now->tm_mday;
 	};
-	static short getThisHour() {
-		time_t t = time(0);   //
-		tm* now = localtime(&t);
-		return now->tm_hour;
-	};
-
 	void print() {
 		cout << _day << "/" << _month << "/" << _year;
 	};
@@ -81,6 +77,17 @@ public:
 		today._year = getThisYear();
 		return today;
 	};
+	static string getSystemTime() {
+		time_t t = time(0);   //
+		tm* now = localtime(&t);
+		string time = to_string(now->tm_hour) + ":" + to_string(now->tm_min) + ":" + to_string(now->tm_sec);
+		return time;
+	};
+	static string getSystemDateTimeString(string Format="dd/mm/yyyy") {
+		return dateToString(getSystemDate()) +" - "+ getSystemTime();
+	};
+
+
 	static bool isLeapYear(short year) {
 		return (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0));
 	};

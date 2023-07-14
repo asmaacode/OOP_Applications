@@ -176,5 +176,13 @@ public:
 		else { return   NumberToText(Number / 1000000000) + "Billions " + NumberToText(Number % 1000000000); }
 
 	}
+	static void AddNewLineToFile(string FileName,string NewLine) {
+		fstream File;
+		File.open(FileName, ios::out | ios::app);
+		if (File.is_open()) {
+			File << NewLine << endl;
+		}
+		File.close();
+	}
 };
 
