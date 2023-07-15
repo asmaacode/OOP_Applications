@@ -167,6 +167,10 @@ public:
 			if (doYouQuestion("Update User ?"))rights += enScreenRights::scUpdateUser;
 			if (doYouQuestion("Find User ?"))rights += enScreenRights::scFindUser;*/
 		}
+		if (doYouQuestion("Login Log List ?"))
+		{
+			rights += clsUser::enShowLoginLog;
+		}
 
 		return rights;
 	}
