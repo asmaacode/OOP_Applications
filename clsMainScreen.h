@@ -9,6 +9,7 @@
 #include "clsFindClientScreen.h"
 #include "clsTransactionsScreen.h"
 #include"clsManageUsersScreen.h"
+#include"clsLoginLogScreen.h"
 using namespace std;
 
 class clsMainScreen : protected clsScreen
@@ -17,11 +18,11 @@ private:
 	enum enMainMenuOptions {
 		enListClients = 1, enAddNewClient = 2, enDeleteClient = 3,
 		enUpdateClient = 4, enFindClient = 5, enShowTransactionsMenu = 6,
-		enManageUsers = 7, enExit = 8
+		enManageUsers = 7,enShowLoginLogList=8 ,enExit = 9
 	};
 	static enMainMenuOptions _ReadMainMenuOption() {
-		string msg = clsDrawer::generateTabs(35) + "Choose what you want to do? [1-8]" + "  ";
-		return (enMainMenuOptions)clsInputValidate::readNumberBetween(1, 8, msg);
+		string msg = clsDrawer::generateTabs(35) + "Choose what you want to do? [1-9]" + "  ";
+		return (enMainMenuOptions)clsInputValidate::readNumberBetween(1, 9, msg);
 	}
 	static  void _GoBackToMainMenu()
 	{
@@ -85,6 +86,14 @@ private:
 		}
 		clsManageUsersScreen::ShowManageUsersMenu();
 	}
+	static void _ShowLoginLogListScreen()
+	{
+		if (!CheckAccessRights(clsUser::enRights::enShowLoginLog))
+		{
+			return;// this will exit the function and it will not continue
+		}
+		clsLoginLogScreen::ShowLoginLogList();
+	}
 	static void _ShowEndScreen()
 	{
 		CurrentUser = CurrentUser.Find("","");
@@ -136,6 +145,12 @@ private:
 			_GoBackToMainMenu();
 			break;
 
+		case enMainMenuOptions::enShowLoginLogList:
+			system("cls");
+			_ShowLoginLogListScreen();
+			_GoBackToMainMenu();
+			break;
+
 		case enMainMenuOptions::enExit:
 			system("cls");
 			_ShowEndScreen();
@@ -158,7 +173,8 @@ public:
 		cout << left << clsDrawer::generateTabs(40) << "[5] Find Client.\n";
 		cout << left << clsDrawer::generateTabs(40) << "[6] Transactions.\n";
 		cout << left << clsDrawer::generateTabs(40) << "[7] Manage Users.\n";
-		cout << left << clsDrawer::generateTabs(40) << "[8] Logout.\n";
+		cout << left << clsDrawer::generateTabs(40) << "[8] Login Log List.\n";
+		cout << left << clsDrawer::generateTabs(40) << "[9] Logout.\n";
 		cout << left << clsDrawer::generateTabs(35) << clsDrawer::generateLine(40, '=') << "\n";
 
 		_PerfromMainMenuOption(_ReadMainMenuOption());

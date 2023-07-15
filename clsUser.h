@@ -15,12 +15,22 @@ private:
 	string _Password = "";
 	int _Rights = -1;
 	bool _MarkAsDeleted = false;
-
+	struct stLoginLogRecord;
 	static clsUser _ConvertLinetoUserObject(string Line, string Delimiter = "#//#")
 	{
 		vector<string> vUserData = clsString::split(Line, Delimiter);
 		return clsUser(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2],
 			vUserData[3], vUserData[4], vUserData[5], stoi(vUserData[6]));
+	}
+	static stLoginLogRecord _ConvertLinetoLoginLogFile(string Line, string Delimiter = "#//#")
+	{
+		vector<string> vLogData = clsString::split(Line, Delimiter);
+		stLoginLogRecord Record;
+		Record.DateTime = vLogData[0];
+		Record.UserName = vLogData[1];
+		Record.Password = vLogData[2];
+		Record.Rights = stoi(vLogData[3]);
+		return Record;
 	}
 	static string _ConvertUserObjecttoLine(clsUser User, string Delimiter = "#//#")
 	{
@@ -53,6 +63,19 @@ private:
 		}
 		return vUsers;
 	}
+	static vector<clsUser::stLoginLogRecord> _LoadLoginLogDataFromFile() {
+		vector<clsUser::stLoginLogRecord> vLoginLogRecords;
+		fstream File;
+		File.open("LoginLogFile.txt", ios::in);
+		if (File.is_open()) {
+			string Line;
+			while (getline(File, Line)) {
+				vLoginLogRecords.push_back(_ConvertLinetoLoginLogFile(Line));
+			}
+			File.close();
+		}
+		return vLoginLogRecords;
+	}
 	static void _SaveUsersDataToFile(vector<clsUser> vUsers) {
 		fstream File;
 		File.open("Users.txt", ios::out);
@@ -78,7 +101,7 @@ private:
 	void _AddNew() {
 		clsUtils::AddNewLineToFile("Users.txt", _ConvertUserObjecttoLine(*this));
 	}
-	string _PrepareLogInRecord(string Seperator = "#//#")
+	string _PrepareLoginRecord(string Seperator = "#//#")
 	{
 		string LoginRecord = "";
 		LoginRecord += clsDate::getSystemDateTimeString() + Seperator;
@@ -89,6 +112,12 @@ private:
 	}
 
 public:
+	struct stLoginLogRecord {
+		string DateTime = "";
+		string UserName = "";
+		string Password = "";
+		int Rights = -1;
+	};
 	clsUser(enMode Mode, string FirstName, string LastName, string Email, string Phone, string UserName, string Password, int Rights)
 		:clsPerson(FirstName, LastName, Email, Phone) {
 		_Mode = Mode;
@@ -105,14 +134,15 @@ public:
 		enFindClient = 16,
 		enTransactions = 32,
 		enManageUsers = 64,
-		enShowUsers = 128,
+		enShowLoginLog =128
+		/*enShowUsers = 128,
 		enAddNewUser = 256,
 		enDeleteUser = 512,
 		enUpdateUser = 1024,
 		enFindUser = 2048,
 		enDeposite = 4096,
 		enWithdraw = 8192,
-		enTotalsBalances = 16384
+		enTotalsBalances = 16384*/
 	};
 	bool IsEmpty() {
 		return (_Mode == enMode::EmptyMode);
@@ -212,7 +242,10 @@ public:
 		return (this->Rights == -1 || (this->Rights & Rights));
 	}
 	void RegisterLogIn() {
-		clsUtils::AddNewLineToFile("LoginLogFile.txt", _PrepareLogInRecord());
+		clsUtils::AddNewLineToFile("LoginLogFile.txt", _PrepareLoginRecord());
+	}
+	static vector<clsUser::stLoginLogRecord> GetLoginLogList() {
+		return _LoadLoginLogDataFromFile();
 	}
 };
 
