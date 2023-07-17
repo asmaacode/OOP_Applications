@@ -199,15 +199,50 @@ public:
 		}
 		return Total;
 	}
-	void Deposit(float Amount) {
-		AccountBalance = AccountBalance + (Amount * 1);
-	}	
-	bool Withdraw(float Amount) {
-		if (Amount > AccountBalance) {
+	bool Deposit(float Amount) {
+		_AccountBalance = _AccountBalance + (Amount * 1);
+		switch (Save())
+		{
+		case clsBankClient::svSuccess:
+			return true;
+		case clsBankClient::svFailedEmptyClient:
 			return false;
 		}
-		AccountBalance = AccountBalance + (Amount * -1);
-		return true;
+	}
+	bool Withdraw(float Amount) {
+		if (Amount > _AccountBalance)
+			return false;
+
+		_AccountBalance = _AccountBalance + (Amount * -1);
+		switch (Save())
+		{
+		case clsBankClient::svSuccess:
+			return true;
+		case clsBankClient::svFailedEmptyClient:
+			return false;
+		}
+	}
+	bool Transfer(float Amount, clsBankClient& ToClient)
+	{
+		if (Amount > AccountBalance)
+			return false;
+
+		if (Withdraw(Amount))
+		{
+			return ToClient.Deposit(Amount);
+		}
+		return false;
+	}
+	void Print()
+	{
+		cout << "\nClient Card:";
+		cout << "\n___________________";
+		cout << "\nFull Name: " << FullName();
+		cout << "\nEmail    : " << Email;
+		cout << "\nPhone    : " << Phone;
+		cout << "\n Account Number:" << AccountNumber;
+		cout << "\n Balance:" << AccountBalance;
+		cout << "\n___________________\n";
 	}
 
 };

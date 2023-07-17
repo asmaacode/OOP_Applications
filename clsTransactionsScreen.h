@@ -5,23 +5,27 @@
 #include "clsDepositScreen.h"
 #include "clsWithdrawScreen.h"
 #include "clsTotalBalancesScreen.h"
+#include "clsTransferScreen.h"
 using namespace std;
 
 class clsTransactionsScreen : protected clsScreen
 {
 private:
-	enum enTransactionsOptions { enDeposit = 1, enWithdraw = 2, enTotalBalances = 3, enMainMenu = 4 };
+	enum enTransactionsOptions { enDeposit = 1, enWithdraw = 2, enTotalBalances = 3, enTransfer = 4, enMainMenu = 5 };
 	static void _ShowDepositeScreen() {
 		clsDepositScreen::ShowDepositScreen();
 	};
 	static void _ShowWithdrawScreen() {
 		clsWithdrawScreen::ShowWithdrawScreen();
 	};
+	static void _ShowTransferScreen() {
+		clsTransferScreen::ShowTransferScreen();
+	};
 	static void _ShowTotalBalancesScreen() {
 		clsTotalBalancesScreen::ShowTotalBalances();
 	};
 	static enTransactionsOptions _ReadTransactionOption() {
-		return (enTransactionsOptions)clsInputValidate::readNumberBetween(1, 4, "Choose what do you want to do? [1,4]");
+		return (enTransactionsOptions)clsInputValidate::readNumberBetween(1, 5, "Choose what do you want to do? [1,5]");
 	}
 	static void _GoBackToTrancationMenu() {
 		cout << "\nPress any key to go back to Transactions Menu...\n";
@@ -47,6 +51,11 @@ private:
 			_ShowTotalBalancesScreen();
 			_GoBackToTrancationMenu();
 			break;
+		case enTransactionsOptions::enTransfer:
+			system("cls");
+			_ShowTransferScreen();
+			_GoBackToTrancationMenu();
+			break;
 		case enTransactionsOptions::enMainMenu: {
 
 		}
@@ -63,7 +72,8 @@ public:
 		cout << left << clsDrawer::generateTabs(40) << "[1] Deposit.\n";
 		cout << left << clsDrawer::generateTabs(40) << "[2] Withdraw.\n";
 		cout << left << clsDrawer::generateTabs(40) << "[3] Total Balances.\n";
-		cout << left << clsDrawer::generateTabs(40) << "[4] MainMenu.\n";
+		cout << left << clsDrawer::generateTabs(40) << "[4] Transfer.\n";
+		cout << left << clsDrawer::generateTabs(40) << "[5] MainMenu.\n";
 		cout << left << clsDrawer::generateTabs(35) << clsDrawer::generateLine(40, '=') << "\n";
 
 		_PerfromTransactionsMenuOption(_ReadTransactionOption());

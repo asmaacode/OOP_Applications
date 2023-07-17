@@ -5,35 +5,49 @@
 using namespace std;
 class clsWithdrawScreen : protected clsScreen
 {
-public:
-	static void ShowWithdrawScreen() {
-		_DrawScreenHeader("Withdraw Screen", "");
+private:
+	static string _ReadAccountNumber(string msg = "Please enter the account number to withdraw ")
+	{
 		string AccountNumber = clsInputValidate::readText(" \n");
 		while (AccountNumber == "") {
-			AccountNumber = clsInputValidate::readText("\nPlease enter the account number:");
+			cout << " \n";
+			AccountNumber = clsInputValidate::readText(msg);
 		}
 		while (!clsBankClient::IsClientExist(AccountNumber)) {
 			cout << "Sorry! The Account number does not exist ! \n";
-			AccountNumber = clsInputValidate::readText("\nPlease enter the account number:");
-		}
-		clsBankClient CurrentClient = clsBankClient::Find(AccountNumber);
-		CurrentClient.Print();
-		float Amount = clsInputValidate::readFltNumber("\nPlease enter amount :");
-		while (!CurrentClient.Withdraw(Amount))
-		{
-			cout << "Amount exceeds the balance, you can withdraw up to : [" << CurrentClient.AccountBalance << "]\n";
-			Amount = clsInputValidate::readFltNumber("\nPlease enter amount :");
+			cout << " \n";
+			AccountNumber = clsInputValidate::readText(msg);
 		}
 
-		switch (CurrentClient.Save())
+		return AccountNumber;
+	}
+	static float _ReadAmount(clsBankClient Client)
+	{
+		float Amount;
+		Amount = clsInputValidate::readFltNumber("\nEnter amount? ");
+		while (Amount > Client.AccountBalance)
 		{
-		case clsBankClient::svSuccess:
+			Amount = clsInputValidate::readDblNumber("\nAmount exceeds the available balance, Enter another amount ?");
+		}
+		return Amount;
+	}
+public:
+	static void ShowWithdrawScreen() {
+		_DrawScreenHeader("Withdraw Screen", "");
+		string AccountNumber = _ReadAccountNumber("Please enter the account number to withdraw: ");
+		clsBankClient CurrentClient = clsBankClient::Find(AccountNumber);
+		CurrentClient.Print();
+
+		float Amount = _ReadAmount(CurrentClient);
+
+		if (CurrentClient.Withdraw(Amount))
+		{
 			cout << "\nThe transaction performed successfully.\n";
 			cout << "\nNew Balances is" << CurrentClient.AccountBalance << endl;
-			break;
-		case clsBankClient::svFailedEmptyClient:
-			cout << "\nError transaction was not performend because client is Empty.\n";
-			break;
+		}
+		else
+		{
+			cout << "\nWithdraw Faild \n";
 		}
 	}
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "clsDate.h"
 #include "clsDrawer.h"
 using namespace std;
