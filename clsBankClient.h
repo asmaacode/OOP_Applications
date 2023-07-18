@@ -4,6 +4,9 @@
 #include <fstream>
 #include "clsPerson.h"
 #include "clsString.h"
+#include "clsDate.h"
+#include "clsUtils.h"
+#include "Global.h"
 using namespace std;
 class clsBankClient : public clsPerson
 {
@@ -74,16 +77,23 @@ private:
 		}
 		_SaveClientsDataToFile(vClients);
 	}
-	void _AddNewLineToFile(string NewLine) {
-		fstream File;
-		File.open("Clients.txt", ios::out | ios::app);
-		if (File.is_open()) {
-			File << NewLine << endl;
-		}
-		File.close();
-	}
 	void _AddNew() {
-		_AddNewLineToFile(_ConvertClientObjecttoLine(*this));
+		clsUtils::AddNewLineToFile("Clients.txt", _ConvertClientObjecttoLine(*this));
+	}
+	string _PrepareTransferLogRecord(float Amount,clsBankClient &ToClient,string Seperator = "#//#")
+	{
+		string Record = "";
+		Record += clsDate::getSystemDateTimeString() + Seperator;
+		Record += _AccountNumber + Seperator;
+		Record += ToClient.AccountNumber + Seperator;
+		Record += to_string(Amount) + Seperator;
+		Record += to_string(_AccountBalance) + Seperator;
+		Record += to_string(ToClient.AccountBalance) + Seperator;
+		Record += CurrentUser.UserName+"\n";
+		return Record;
+	}
+	void _WriteTransferLog(float Amount, clsBankClient& ToClient) {
+		clsUtils::AddNewLineToFile("TransferLogFile.txt", _PrepareTransferLogRecord(Amount, ToClient));
 	}
 public:
 	clsBankClient(string FirstName, string LastName, string Email, string Phone, string AccountNumber,
@@ -157,6 +167,17 @@ public:
 		return (!Find(AccountNumber).IsEmpty());
 	};
 
+	void Print()
+	{
+		cout << "\nClient Card:";
+		cout << "\n___________________";
+		cout << "\nFull Name: " << FullName();
+		cout << "\nEmail    : " << Email;
+		cout << "\nPhone    : " << Phone;
+		cout << "\n Account Number:" << AccountNumber;
+		cout << "\n Balance:" << AccountBalance;
+		cout << "\n___________________\n";
+	}
 	static enum enSaveResult { svFailedEmptyClient, svSuccess, svFailedAddExistsClient };
 	enSaveResult Save() {
 		if (_Mode == enMode::EmptyMode)
@@ -224,25 +245,14 @@ public:
 	}
 	bool Transfer(float Amount, clsBankClient& ToClient)
 	{
-		if (Amount > AccountBalance)
-			return false;
-
-		if (Withdraw(Amount))
-		{
-			return ToClient.Deposit(Amount);
-		}
+		if (Amount <= AccountBalance)
+			if (Withdraw(Amount))
+				if (ToClient.Deposit(Amount)) {
+					//Write into Transfer log file
+					_WriteTransferLog(Amount,ToClient);
+					return true;
+				}
 		return false;
-	}
-	void Print()
-	{
-		cout << "\nClient Card:";
-		cout << "\n___________________";
-		cout << "\nFull Name: " << FullName();
-		cout << "\nEmail    : " << Email;
-		cout << "\nPhone    : " << Phone;
-		cout << "\n Account Number:" << AccountNumber;
-		cout << "\n Balance:" << AccountBalance;
-		cout << "\n___________________\n";
 	}
 
 };

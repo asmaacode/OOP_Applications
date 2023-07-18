@@ -101,7 +101,7 @@ private:
 	void _AddNew() {
 		clsUtils::AddNewLineToFile("Users.txt", _ConvertUserObjecttoLine(*this));
 	}
-	string _PrepareLoginRecord(string Seperator = "#//#")
+	string _PrepareLoginLogRecord(string Seperator = "#//#")
 	{
 		string LoginRecord = "";
 		LoginRecord += clsDate::getSystemDateTimeString() + Seperator;
@@ -242,7 +242,7 @@ public:
 		return (this->Rights == -1 || (this->Rights & Rights));
 	}
 	void RegisterLogIn() {
-		clsUtils::AddNewLineToFile("LoginLogFile.txt", _PrepareLoginRecord());
+		clsUtils::AddNewLineToFile("LoginLogFile.txt", _PrepareLoginLogRecord());
 	}
 	static vector<clsUser::stLoginLogRecord> GetLoginLogList() {
 		return _LoadLoginLogDataFromFile();
