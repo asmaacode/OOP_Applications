@@ -1,8 +1,9 @@
 #pragma once
+#include"InterfaceCommunication.h"
 #include <string>
 #include <iostream>
 using namespace std;
-class clsPerson
+class clsPerson : public InterfaceCommunication
 {
 private:
     string _FirstName = "";
@@ -74,6 +75,8 @@ public:
         cout << "\nPhone    : " << _Phone;
         cout << "\n___________________\n";
     }
-
+    void SendEmail() {}
+    void SendSMS() {}
+    void SendFax() {}
 };
 

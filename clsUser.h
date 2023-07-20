@@ -15,12 +15,14 @@ private:
 	string _Password = "";
 	int _Rights = -1;
 	bool _MarkAsDeleted = false;
+
 	struct stLoginLogRecord;
 	static clsUser _ConvertLinetoUserObject(string Line, string Delimiter = "#//#")
 	{
 		vector<string> vUserData = clsString::split(Line, Delimiter);
+		//Decrypt 
 		return clsUser(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2],
-			vUserData[3], vUserData[4], vUserData[5], stoi(vUserData[6]));
+			vUserData[3], vUserData[4], clsUtils::Decrypt(vUserData[5]), stoi(vUserData[6]));
 	}
 	static stLoginLogRecord _ConvertLinetoLoginLogFile(string Line, string Delimiter = "#//#")
 	{
@@ -28,7 +30,7 @@ private:
 		stLoginLogRecord Record;
 		Record.DateTime = vLogData[0];
 		Record.UserName = vLogData[1];
-		Record.Password = vLogData[2];
+		Record.Password = clsUtils::Decrypt(vLogData[2]);
 		Record.Rights = stoi(vLogData[3]);
 		return Record;
 	}
@@ -40,7 +42,8 @@ private:
 		stUserRecord += User.Email + Delimiter;
 		stUserRecord += User.Phone + Delimiter;
 		stUserRecord += User.UserName + Delimiter;
-		stUserRecord += User.Password + Delimiter;
+		//Encrypt
+		stUserRecord += clsUtils::Encrypt(User.Password) + Delimiter;
 		stUserRecord += to_string(User.Rights);
 
 		return stUserRecord;
@@ -106,7 +109,7 @@ private:
 		string LoginRecord = "";
 		LoginRecord += clsDate::getSystemDateTimeString() + Seperator;
 		LoginRecord += UserName + Seperator;
-		LoginRecord += Password + Seperator;
+		LoginRecord += clsUtils::Encrypt(Password) + Seperator;
 		LoginRecord += to_string(Rights);
 		return LoginRecord;
 	}
@@ -134,7 +137,7 @@ public:
 		enFindClient = 16,
 		enTransactions = 32,
 		enManageUsers = 64,
-		enShowLoginLog =128
+		enShowLoginLog = 128
 		/*enShowUsers = 128,
 		enAddNewUser = 256,
 		enDeleteUser = 512,
