@@ -78,5 +78,3 @@ public:
     void SendEmail() {}
     void SendSMS() {}
     void SendFax() {}
-};
-
