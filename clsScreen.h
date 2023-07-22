@@ -3,9 +3,7 @@
 #include"clsDrawer.h"
 #include"clsDate.h"
 #include"Global.h"
-
 using namespace std;
-
 class clsScreen
 {
 protected:

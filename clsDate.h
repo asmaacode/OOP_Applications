@@ -4,6 +4,7 @@
 #include<iomanip>
 #include "clsString.h"
 #include "clsDrawer.h"
+using namespace std;
 class clsDate
 {
 private:
@@ -270,7 +271,7 @@ public:
 	static clsDate stringToDate(string stringDate) {
 		clsDate date;
 		try {
-			vector<string>dateSliced = clsString::split(stringDate, "/");
+			vector<string>dateSliced = clsString::Split(stringDate, "/");
 			date._day = stoi(dateSliced.at(0));
 			date._month = stoi(dateSliced.at(1));
 			date._year = stoi(dateSliced.at(2));
@@ -313,9 +314,9 @@ public:
 	};
 	static string dateFormat(clsDate date, string format = "dd/mm/yyyy") {
 		string result = format;
-		clsString::replace(result, "dd", to_string(date._day));
-		clsString::replace(result, "mm", to_string(date._month));
-		clsString::replace(result, "yyyy", to_string(date._year));
+		clsString::Replace(result, "dd", to_string(date._day));
+		clsString::Replace(result, "mm", to_string(date._month));
+		clsString::Replace(result, "yyyy", to_string(date._year));
 		return result;
 	}
 

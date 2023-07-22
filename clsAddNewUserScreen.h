@@ -4,7 +4,6 @@
 #include"clsDrawer.h"
 #include"clsScreen.h"
 #include<iomanip>
-using namespace std;
 class clsAddNewUserScreen : protected clsScreen
 {
 public:

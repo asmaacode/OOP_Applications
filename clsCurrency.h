@@ -12,12 +12,12 @@ private:
 	string _CurrencyCode;
 	string _CurrencyName;
 	float _Rate;
-	enum enMode { enEmpty = 0, enUpdate = 0 };
+	enum enMode { enEmpty = 0, enUpdate = 1 };
 	enMode _Mode;
 	static clsCurrency _ConvertLinetoCurrencyObject(string Line, string Delimiter = "#//#")
 	{
-		vector<string> vCurrencyData = clsString::split(Line, Delimiter);
-		return clsCurrency(enMode::enUpdate, vCurrencyData[0], vCurrencyData[1], vCurrencyData[2], stoi(vCurrencyData[3]));
+		vector<string> vCurrencyData = clsString::Split(Line, Delimiter);
+		return clsCurrency(enMode::enUpdate, vCurrencyData[0], vCurrencyData[1], vCurrencyData[2], stof(vCurrencyData[3]));
 	}
 	static string _ConvertCurrencyObjecttoLine(clsCurrency Currency, string Delimiter = "#//#")
 	{
@@ -78,7 +78,7 @@ public:
 		_Mode = Mode;
 	}
 	bool IsEmpty() {
-		return _Mode == enMode::enEmpty;
+		return (_Mode == enMode::enEmpty);
 	}
 	string Country() {
 		return _Country;
@@ -109,7 +109,7 @@ public:
 			while (getline(MyFile, Line))
 			{
 				clsCurrency Currency = _ConvertLinetoCurrencyObject(Line);
-				if (clsString::uppercase(Currency.CurrencyCode()) == CurrencyCode)
+				if (clsString::UpperAllString(Currency.CurrencyCode()) == clsString::UpperAllString(CurrencyCode))
 				{
 					MyFile.close();
 					return Currency;
@@ -129,7 +129,7 @@ public:
 			while (getline(MyFile, Line))
 			{
 				clsCurrency Currency = _ConvertLinetoCurrencyObject(Line);
-				if (clsString::uppercase(Currency.Country()) == Country)
+				if (clsString::UpperAllString(Currency.Country()) == clsString::UpperAllString(Country))
 				{
 					MyFile.close();
 					return Currency;
@@ -146,4 +146,3 @@ public:
 	}
 
 };
-

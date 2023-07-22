@@ -3,7 +3,7 @@
 #include"clsDrawer.h"
 #include"clsScreen.h"
 #include<iomanip>
-
+using namespace std;
 class clsClientsListScreen : protected clsScreen
 {
 private:

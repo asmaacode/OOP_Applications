@@ -3,7 +3,7 @@
 #include "clsBankClient.h"
 #include "clsUser.h"
 #include "clsDate.h"
-using namespace std;
+
 class clsInputValidate
 {
 public:

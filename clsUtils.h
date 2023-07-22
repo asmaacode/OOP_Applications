@@ -4,7 +4,7 @@
 #include <fstream>
 #include "clsDate.h"
 #include "clsDrawer.h"
-using namespace std;
+
 
 class clsUtils {
 public:

@@ -4,7 +4,7 @@
 #include"clsUtils.h"
 #include <fstream>
 #include <vector>
-using namespace std;
+
 
 class clsUser :public clsPerson
 {
@@ -19,14 +19,14 @@ private:
 	struct stLoginLogRecord;
 	static clsUser _ConvertLinetoUserObject(string Line, string Delimiter = "#//#")
 	{
-		vector<string> vUserData = clsString::split(Line, Delimiter);
+		vector<string> vUserData = clsString::Split(Line, Delimiter);
 		//Decrypt 
 		return clsUser(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2],
 			vUserData[3], vUserData[4], clsUtils::Decrypt(vUserData[5]), stoi(vUserData[6]));
 	}
 	static stLoginLogRecord _ConvertLinetoLoginLogFile(string Line, string Delimiter = "#//#")
 	{
-		vector<string> vLogData = clsString::split(Line, Delimiter);
+		vector<string> vLogData = clsString::Split(Line, Delimiter);
 		stLoginLogRecord Record;
 		Record.DateTime = vLogData[0];
 		Record.UserName = vLogData[1];
@@ -137,7 +137,8 @@ public:
 		enFindClient = 16,
 		enTransactions = 32,
 		enManageUsers = 64,
-		enShowLoginLog = 128
+		enShowLoginLog = 128,
+		enCurrencyExchange=256
 		/*enShowUsers = 128,
 		enAddNewUser = 256,
 		enDeleteUser = 512,

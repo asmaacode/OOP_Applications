@@ -2,7 +2,6 @@
 #include<string>
 #include"clsScreen.h"
 #include"clsInputValidate.h"
-using namespace std;
 class clsDepositScreen : protected clsScreen
 {
 private:

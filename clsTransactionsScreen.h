@@ -6,7 +6,7 @@
 #include "clsWithdrawScreen.h"
 #include "clsTotalBalancesScreen.h"
 #include "clsTransferScreen.h"
-using namespace std;
+
 
 class clsTransactionsScreen : protected clsScreen
 {

@@ -2,7 +2,7 @@
 #include<string>
 #include"clsScreen.h"
 #include"clsInputValidate.h"
-using namespace std;
+
 class clsWithdrawScreen : protected clsScreen
 {
 private:

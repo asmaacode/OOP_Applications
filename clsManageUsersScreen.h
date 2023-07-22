@@ -7,7 +7,7 @@
 #include "clsUpdateUserScreen.h"
 #include "clsDeleteUserScreen.h"
 #include "clsFindUserScreen.h"
-using namespace std;
+
 
 class clsManageUsersScreen : protected clsScreen
 {

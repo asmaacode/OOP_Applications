@@ -19,7 +19,7 @@ public:
         _Email = Email;
         _Phone = Phone;
     }
-    
+
     void SetFirstName(string FirstName)
     {
         _FirstName = FirstName;
@@ -78,3 +78,4 @@ public:
     void SendEmail() {}
     void SendSMS() {}
     void SendFax() {}
+};

@@ -10,7 +10,8 @@
 #include "clsTransactionsScreen.h"
 #include"clsManageUsersScreen.h"
 #include"clsLoginLogScreen.h"
-using namespace std;
+#include"clsCurrencyMenu.h"
+
 
 class clsMainScreen : protected clsScreen
 {
@@ -18,11 +19,11 @@ private:
 	enum enMainMenuOptions {
 		enListClients = 1, enAddNewClient = 2, enDeleteClient = 3,
 		enUpdateClient = 4, enFindClient = 5, enShowTransactionsMenu = 6,
-		enManageUsers = 7,enShowLoginLogList=8 ,enExit = 9
+		enManageUsers = 7, enShowLoginLogList = 8, enCurrencyExchange = 9, enExit = 10
 	};
 	static enMainMenuOptions _ReadMainMenuOption() {
-		string msg = clsDrawer::generateTabs(35) + "Choose what you want to do? [1-9]" + "  ";
-		return (enMainMenuOptions)clsInputValidate::readNumberBetween(1, 9, msg);
+		string msg = clsDrawer::generateTabs(35) + "Choose what you want to do? [1-10]" + "  ";
+		return (enMainMenuOptions)clsInputValidate::readNumberBetween(1, 10, msg);
 	}
 	static  void _GoBackToMainMenu()
 	{
@@ -94,9 +95,17 @@ private:
 		}
 		clsLoginLogScreen::ShowLoginLogList();
 	}
+	static void _ShowCurrencyExchangeMenu()
+	{
+		if (!CheckAccessRights(clsUser::enRights::enCurrencyExchange))
+		{
+			return;// this will exit the function and it will not continue
+		}
+		clsCurrencyMenu::ShowCurrencyMenu();
+	}
 	static void _ShowEndScreen()
 	{
-		CurrentUser = CurrentUser.Find("","");
+		CurrentUser = CurrentUser.Find("", "");
 	}
 	static void _PerfromMainMenuOption(enMainMenuOptions MainMenuOption)
 	{
@@ -151,6 +160,12 @@ private:
 			_GoBackToMainMenu();
 			break;
 
+		case enMainMenuOptions::enCurrencyExchange:
+			system("cls");
+			_ShowCurrencyExchangeMenu();
+			_GoBackToMainMenu();
+			break;
+
 		case enMainMenuOptions::enExit:
 			system("cls");
 			_ShowEndScreen();
@@ -174,7 +189,8 @@ public:
 		cout << left << clsDrawer::generateTabs(40) << "[6] Transactions.\n";
 		cout << left << clsDrawer::generateTabs(40) << "[7] Manage Users.\n";
 		cout << left << clsDrawer::generateTabs(40) << "[8] Login Log List.\n";
-		cout << left << clsDrawer::generateTabs(40) << "[9] Logout.\n";
+		cout << left << clsDrawer::generateTabs(40) << "[9] Currency Exchange.\n";
+		cout << left << clsDrawer::generateTabs(40) << "[10] Logout.\n";
 		cout << left << clsDrawer::generateTabs(35) << clsDrawer::generateLine(40, '=') << "\n";
 
 		_PerfromMainMenuOption(_ReadMainMenuOption());

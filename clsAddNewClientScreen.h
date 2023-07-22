@@ -1,10 +1,11 @@
 #pragma once
+
 #include"clsBankClient.h"
+
 #include"clsInputValidate.h"
 #include"clsDrawer.h"
 #include"clsScreen.h"
 #include<iomanip>
-using namespace std;
 class clsAddNewClientScreen : protected clsScreen
 {
 public:
