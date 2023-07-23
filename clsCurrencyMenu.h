@@ -1,7 +1,7 @@
 #pragma once
 #include "clsScreen.h"
 #include "clsInputValidate.h"
-
+#include "clsCurrenciesList.h"
 class clsCurrencyMenu : protected clsScreen
 {
 private:
@@ -10,17 +10,12 @@ private:
 	static enCurrencyOptions _ReadCurrencyOption() {
 		return (enCurrencyOptions)clsInputValidate::readNumberBetween(1, 5, "Choose what do you want to do? [1,5]");
 	}
-	static void _GoBackToTrancationMenu() {
-		cout << "\nPress any key to go back to Transactions Menu...\n";
-		system("pause>0");
-		ShowCurrencyMenu();
-	};
 	static void _GoBackToCurrencyMenu() {
 		cout << "\nPress any key to go back to Currency Exchange Menu...\n";
 		system("pause>0");
 		ShowCurrencyMenu();
 	};
-	static void _ShowListCurrencies() { cout << "List Currencies will be here\n"; }
+	static void _ShowListCurrencies() { clsCurrenciesList::ShowCurrenciesScreen(); }
 	static void _ShowFindCurrency() { cout << "Find Currency will be here\n"; }
 	static void _ShowUpdateRate() { cout << "Update Rate will be here\n"; }
 	static void _ShowCalculator() { cout << "Currency Calculator will be here\n"; }
