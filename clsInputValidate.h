@@ -153,23 +153,18 @@ public:
 		if (doYouQuestion("Transactions ?"))
 		{
 			rights += clsUser::enTransactions;
-			//if (doYouQuestion("Deposite ?"))rights += clsUser::scDeposite;
-			//if (doYouQuestion("Withdraw ?"))rights += clsUser::scWithdraw;
-			//if (doYouQuestion("Show Total Balances ?"))rights += clsUser::scTotalsBalances;
 		}
-
 		if (doYouQuestion("Manage Users ?"))
 		{
 			rights += clsUser::enManageUsers;
-			/*if (doYouQuestion("Show Users List ?"))rights += enScreenRights::scShowUsers;
-			if (doYouQuestion("Add New User ?"))rights += enScreenRights::scAddNewUser;
-			if (doYouQuestion("Delete User ?"))rights += enScreenRights::scDeleteUser;
-			if (doYouQuestion("Update User ?"))rights += enScreenRights::scUpdateUser;
-			if (doYouQuestion("Find User ?"))rights += enScreenRights::scFindUser;*/
 		}
 		if (doYouQuestion("Login Log List ?"))
 		{
 			rights += clsUser::enShowLoginLog;
+		}
+		if (doYouQuestion("Currency Exchange ?"))
+		{
+			rights += clsUser::enCurrencyExchange;
 		}
 
 		return rights;
