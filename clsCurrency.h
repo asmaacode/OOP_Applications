@@ -154,5 +154,19 @@ public:
 		cout << "\nRate(1$): " << _Rate;
 		cout << "\n___________________\n";
 	}
+	float ConvertToUSD(float Amount)
+	{
+		return (float)(Amount / Rate());
+	}
+
+	float ConvertToOtherCurrency(float Amount, clsCurrency Currency2)
+	{
+		float AmountInUSD = ConvertToUSD(Amount);
+		if (Currency2.CurrencyCode() == "USD")
+		{
+			return AmountInUSD;
+		}
+		return (float)(AmountInUSD * Currency2.Rate());
+	}
 
 };
