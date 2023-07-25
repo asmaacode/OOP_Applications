@@ -139,10 +139,20 @@ public:
 		}
 		return _GetEmptyCurrencyObject();
 	}
-	static bool IsCurrencyExist(string CurrencyCode)
+	static bool IsCurrencyExist(string CodeOrCountry,bool ByCode)
 	{
-		clsCurrency Currency = clsCurrency::FindByCode(CurrencyCode);
+		clsCurrency Currency = ByCode?clsCurrency::FindByCode(CodeOrCountry): clsCurrency::FindByCode(CodeOrCountry);
 		return (!Currency.IsEmpty());
+	}
+	void Print()
+	{
+		cout << "\nCurrency Card:";
+		cout << "\n___________________";
+		cout << "\nCountry: " << _Country;
+		cout << "\nCode: " << _CurrencyCode;
+		cout << "\nName: " << _CurrencyName;
+		cout << "\nRate(1$): " << _Rate;
+		cout << "\n___________________\n";
 	}
 
 };

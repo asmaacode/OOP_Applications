@@ -10,7 +10,7 @@
 #include "clsTransactionsScreen.h"
 #include"clsManageUsersScreen.h"
 #include"clsLoginLogScreen.h"
-#include"clsCurrencyMenu.h"
+#include"clsCurrencyMenuScreen.h"
 
 
 class clsMainScreen : protected clsScreen
@@ -101,7 +101,7 @@ private:
 		{
 			return;// this will exit the function and it will not continue
 		}
-		clsCurrencyMenu::ShowCurrencyMenu();
+		clsCurrencyMenuScreen::ShowCurrencyMenu();
 	}
 	static void _ShowEndScreen()
 	{
